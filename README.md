@@ -35,10 +35,6 @@ The goal is not pixel-perfect design, but a well-structured, maintainable, and u
 - The **Doodle Chat API** running locally  
   (see the backend repository instructions)
 
-### Environment Variables
+### Configuration
 
-Create a `.env` file based on `.env.example`:
-
-```env
-VITE_API_BASE_URL=http://localhost:3000
-VITE_API_TOKEN=super-secret-doodle-token
+For this challenge, API configuration is defined in `src/config/env.ts` with sensible defaults for local development. The configuration includes the API base URL and authentication token, and can be overridden via environment variables if needed.
