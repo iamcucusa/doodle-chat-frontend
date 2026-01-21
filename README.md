@@ -2,6 +2,8 @@
 
 A simple chat interface built with **React** and **TypeScript** for the Doodle Frontend Engineer challenge.
 
+![Chat Interface Preview](./public/doodle-chat-frontend.jpg)
+
 ---
 
 ## 🚀 Quick Start
