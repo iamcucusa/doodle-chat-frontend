@@ -121,7 +121,7 @@ export function ChatScreen() {
                 'Unable to connect to the server. Please check your connection and try again.';
             } else if (validationErrors && validationErrors.length > 0) {
               const messageError = validationErrors.find(
-                err => err.field === 'message'
+                validationError => validationError.field === 'message'
               );
               errorMessage = messageError
                 ? messageError.message
