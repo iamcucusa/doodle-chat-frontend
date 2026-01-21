@@ -27,3 +27,8 @@ export interface GetMessagesParams {
    */
   readonly before?: string;
 }
+
+export interface CreateMessageRequest {
+  readonly message: string;
+  readonly author: string;
+}
