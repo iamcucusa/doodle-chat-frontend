@@ -11,6 +11,7 @@
 import { useChatMessages } from '@hooks/useChatMessages';
 import styles from './ChatScreen.module.css';
 import { MessageList } from '@components/MessageList';
+import { Composer } from '@components/Composer';
 
 /**
  * Messages with author === 'You' are treated as outgoing.
@@ -26,7 +27,15 @@ const CURRENT_USER = 'You';
  * @returns The main chat interface shell
  */
 export function ChatScreen() {
-  const { messages, loadStatus, loadError, reload } = useChatMessages();
+  const {
+    messages,
+    loadStatus,
+    loadError,
+    reload,
+    sendStatus,
+    sendError,
+    sendMessage,
+  } = useChatMessages();
 
   return (
     <>
@@ -47,6 +56,18 @@ export function ChatScreen() {
             className="sr-only"
           >
             Loading messages...
+          </div>
+        )}
+
+        {/* Sending status live region  */}
+        {sendStatus === 'loading' && (
+          <div
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className="sr-only"
+          >
+            Sending message...
           </div>
         )}
 
@@ -87,6 +108,52 @@ export function ChatScreen() {
               isLoading={loadStatus === 'loading'}
             />
           )}
+        </div>
+
+        {sendStatus === 'error' &&
+          sendError &&
+          (() => {
+            const validationErrors = sendError.getValidationErrors();
+            let errorMessage: string;
+
+            if (sendError.statusCode === 0) {
+              errorMessage =
+                'Unable to connect to the server. Please check your connection and try again.';
+            } else if (validationErrors && validationErrors.length > 0) {
+              const messageError = validationErrors.find(
+                err => err.field === 'message'
+              );
+              errorMessage = messageError
+                ? messageError.message
+                : validationErrors[0].message;
+            } else {
+              errorMessage = sendError.message;
+            }
+
+            return (
+              <div
+                className={styles.sendErrorContainer}
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+              >
+                <div className={styles.sendErrorContent}>
+                  <p className={styles.sendErrorTitle}>
+                    Unable to send message
+                  </p>
+                  <p className={styles.sendErrorMessage}>{errorMessage}</p>
+                </div>
+              </div>
+            );
+          })()}
+
+        <div className={styles.composerContainer}>
+          <Composer
+            currentAuthor={CURRENT_USER}
+            onSend={sendMessage}
+            sendStatus={sendStatus}
+            sendError={sendError}
+          />
         </div>
       </main>
     </>
