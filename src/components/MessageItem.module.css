@@ -1,0 +1,75 @@
+
+.root {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  padding: 6px 8px 8px 9px;
+  border-radius: var(--radius-lg);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  box-shadow: var(--shadow-message);
+}
+
+.rootIncoming {
+  align-self: flex-start;
+  background-color: var(--color-bubble-incoming);
+  color: var(--color-text-primary);
+}
+
+.rootOutgoing {
+  align-self: flex-end;
+  background-color: var(--color-bubble-outgoing);
+  color: var(--color-text-primary);
+}
+
+
+.firstMessage {
+  margin-top: var(--space-2x);
+}
+
+.lastMessage {
+  margin-bottom: var(--space-2x);
+}
+
+.senderName {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-0_5x);
+}
+
+.rootIncoming .senderName {
+  color: var(--color-primary-600);
+}
+
+.rootOutgoing .senderName {
+  color: var(--color-accent-600);
+}
+
+.messageText {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.timestamp {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  text-align: right;
+  margin-top: var(--space-0_5x);
+}
+
+@media (min-width: 768px) {
+  .root {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    max-width: 65%;
+  }
+}
