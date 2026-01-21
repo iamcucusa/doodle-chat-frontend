@@ -85,6 +85,15 @@
 }
 
 
+.errorMessage {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   .sendButton {
     transition-duration: 0.01ms;
