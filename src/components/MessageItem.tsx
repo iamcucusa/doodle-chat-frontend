@@ -10,6 +10,23 @@ export interface MessageItemProps {
 }
 
 /**
+ * Formats a timestamp for display using Intl.DateTimeFormat.
+ * Uses browser's locale for proper localization.
+ *
+ * @param timestampMs - Timestamp in milliseconds (from createdAtMs)
+ * @returns Formatted time string (e.g., "2:30 PM" or "14:30" depending on locale)
+ */
+function formatTimestamp(timestampMs: number): string {
+  const date = new Date(timestampMs);
+  const formatter = new Intl.DateTimeFormat(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+  return formatter.format(date);
+}
+
+/**
  * MessageItem Component
  *
  * @param props - Component props
@@ -30,6 +47,8 @@ export function MessageItem({
   const decodedMessage = decodeHtmlEntities(message.message);
   const decodedAuthor = decodeHtmlEntities(message.author);
 
+  const formattedTime = formatTimestamp(message.createdAtMs);
+
   return (
     <li className={rootClassName}>
       <div className={styles.senderName}>{decodedAuthor}</div>
@@ -39,10 +58,7 @@ export function MessageItem({
         className={styles.timestamp}
         title={new Date(message.createdAtMs).toLocaleString()}
       >
-        {new Date(message.createdAtMs).toLocaleTimeString([], {
-          hour: 'numeric',
-          minute: '2-digit',
-        })}
+        {formattedTime}
       </time>
     </li>
   );
