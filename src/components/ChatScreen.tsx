@@ -3,17 +3,26 @@
  * Integrates data layer (useChatMessages hook) with UI shell.
  *
  * Responsibilities:
- * - Renders main chat layout shell (header, messages, composer)
+ * - Renders main chat layout shell
  * - Handles loading, error, and empty states
  * - Establishes accessibility landmarks and live regions
  *
  */
 import { useChatMessages } from '@hooks/useChatMessages';
 import styles from './ChatScreen.module.css';
+import { MessageList } from '@components/MessageList';
+
+/**
+ * Messages with author === 'You' are treated as outgoing.
+ * This is a simplification that:
+ * - Matches the mockup's two-sided layout
+ * - Avoids introducing authentication/identity logic
+ * - Is easy to replace with real user ID when requirements expand
+ */
+const CURRENT_USER = 'You';
 
 /**
  * ChatScreen Component
- *
  * @returns The main chat interface shell
  */
 export function ChatScreen() {
@@ -71,7 +80,13 @@ export function ChatScreen() {
               </div>
             )}
 
-          {messages.length}
+          {loadStatus !== 'error' && (
+            <MessageList
+              messages={messages}
+              currentAuthor={CURRENT_USER}
+              isLoading={loadStatus === 'loading'}
+            />
+          )}
         </div>
       </main>
     </>
