@@ -9,7 +9,11 @@
 
 import { apiConfig } from '@config/env';
 import { ApiError, createApiErrorFromResponse, isApiError } from './api-error';
-import type { GetMessagesParams, Message } from '@models/message';
+import type {
+  CreateMessageRequest,
+  GetMessagesParams,
+  Message,
+} from '@models/message';
 
 /**
  * HTTP methods supported by the API client.
@@ -359,6 +363,92 @@ export class ApiClient {
       method: HttpMethod.GET,
       path: '/messages',
       queryParams: params,
+    });
+  }
+
+  /**
+   * Create a new message via the API.
+   *
+   * This is a public method that external code will call.
+   * It provides a type-safe interface for creating messages with proper
+   * request body serialization and Content-Type handling.
+   *
+   * Request Body Structure:
+   * ```TypeScript
+   * {
+   *   message: string, // The message content
+   *   author: string // The author's name
+   * }
+   * ```
+   *
+   * Response Structure:
+   * ```TypeScript
+   * {
+   *   _id: string, // Server-generated ID
+   *   message: string, // Echoed message content
+   *   author: string, // Echoed author name
+   *   createdAt: string // ISO 8601 timestamp
+   * }
+   * ```
+   *
+   * @param data - Message data containing message and author fields
+   * @returns Promise that resolves to a created message
+   * @throws ApiError if request fails (validation, network, server errors)
+   *
+   * Usage Examples:
+   *
+   * Basic usage:
+   * ```TypeScript
+   * const newMessage = await apiClient.createMessage({
+   *   message: 'Hello, world!',
+   *   author: 'John Doe',
+   * });
+   * // Returns: Promise<Message>
+   * // POST /api/v1/messages
+   * // Body: { "message": "Hello, world!", "author": "John Doe" }
+   * ```
+   *
+   * With a custom hook:
+   * ```TypeScript
+   * import { useChatMessages } from '@hooks/useChatMessages';
+   *
+   * const { sendMessage, sendStatus, sendError } = useChatMessages();
+   *
+   * // Send a message
+   * await sendMessage({
+   *   message: 'Hello!',
+   *   author: 'Jane',
+   * });
+   *
+   * // Check status
+   * if (sendStatus === 'success') {
+   *   console.log('Message sent successfully');
+   * } else if (sendStatus === 'error') {
+   *   console.error('Failed to send:', sendError?.message);
+   * }
+   * ```
+   *
+   * With form handling:
+   * ```TypeScript
+   * const handleSubmit = async (formData: FormData) => {
+   *   try {
+   *     const message = await apiClient.createMessage({
+   *       message: formData.get('message') as string,
+   *       author: formData.get('author') as string,
+   *     });
+   *     // Handle success
+   *   } catch (error) {
+   *     // Handle error
+   *   }
+   * };
+   * ```
+   *
+   */
+  async createMessage(data: Readonly<CreateMessageRequest>): Promise<Message> {
+    return this.request<Message>({
+      method: HttpMethod.POST,
+      path: '/messages',
+      body: data,
     });
   }
 }
