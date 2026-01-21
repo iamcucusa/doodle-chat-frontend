@@ -2,7 +2,10 @@ export interface Message {
   readonly _id: string;
   readonly message: string;
   readonly author: string;
-  readonly createdAt: string; // ISO 8601 timestamp
+  /**
+   * ISO 8601 timestamp
+   */
+  readonly createdAt: string;
 }
 
 /**

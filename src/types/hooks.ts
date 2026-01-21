@@ -1,5 +1,5 @@
 import type { ApiError } from '@api/api-error.ts';
-import type { ChatMessage, CreateMessageRequest } from '@models/message.ts';
+import type { ChatMessage, CreateMessageRequest } from '@models/message';
 
 /**
  * Async operation status.

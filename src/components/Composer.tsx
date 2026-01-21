@@ -4,7 +4,7 @@
  *
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CreateMessageRequest } from '@models/message';
 import styles from './Composer.module.css';
 
