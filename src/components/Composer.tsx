@@ -5,7 +5,6 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import type { ApiError } from '@api/api-error';
 import type { CreateMessageRequest } from '@models/message';
 import styles from './Composer.module.css';
 
@@ -13,7 +12,6 @@ export interface ComposerProps {
   currentAuthor: string;
   onSend: (payload: Readonly<CreateMessageRequest>) => Promise<void>;
   sendStatus: 'idle' | 'loading' | 'success' | 'error';
-  sendError?: ApiError | null;
 }
 
 /**
@@ -135,7 +133,8 @@ export function Composer({ currentAuthor, onSend, sendStatus }: ComposerProps) {
       messageInputRef.current?.focus();
     } catch {
       /**
-       * Error handling is done by parent via sendStatus/sendError
+       * Error handling is done by parent via sendStatus.
+       * Send errors are displayed globally in ChatScreen.
        */
     }
   };

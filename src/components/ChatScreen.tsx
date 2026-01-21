@@ -152,7 +152,6 @@ export function ChatScreen() {
             currentAuthor={CURRENT_USER}
             onSend={sendMessage}
             sendStatus={sendStatus}
-            sendError={sendError}
           />
         </div>
       </main>
