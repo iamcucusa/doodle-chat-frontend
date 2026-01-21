@@ -13,7 +13,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiClient } from '@api/api-client';
 import { ApiError, isApiError } from '@api/api-error';
-import type { Message, ChatMessage } from '@models/message';
+import type {
+  Message,
+  ChatMessage,
+  CreateMessageRequest,
+} from '@models/message';
 import type { AsyncStatus, UseChatMessagesReturn } from '@models/hooks';
 
 /**
@@ -71,6 +75,8 @@ export function useChatMessages(): UseChatMessagesReturn {
   const [messages, setMessages] = useState<ReadonlyArray<ChatMessage>>([]);
   const [loadStatus, setLoadStatus] = useState<AsyncStatus>('loading');
   const [loadError, setLoadError] = useState<ApiError | null>(null);
+  const [sendStatus, setSendStatus] = useState<AsyncStatus>('idle');
+  const [sendError, setSendError] = useState<ApiError | null>(null);
 
   /**
    * Fetches and normalizes messages from the API.
@@ -127,6 +133,42 @@ export function useChatMessages(): UseChatMessagesReturn {
     await loadMessages();
   }, [loadMessages]);
 
+  /**
+   * Send a new message.
+   *
+   * On success:
+   * - Updates local message state
+   *
+   * On error:
+   * - Sets sendError and sendStatus='error'
+   */
+  const sendMessage = useCallback(
+    async (payload: Readonly<CreateMessageRequest>) => {
+      setSendStatus('loading');
+      setSendError(null);
+
+      try {
+        const newMessage = await apiClient.createMessage(payload);
+
+        const normalizedNewMessage = normalizeMessage(newMessage);
+        setMessages(prev => mergeMessagesById(prev, [normalizedNewMessage]));
+
+        setSendStatus('success');
+      } catch (error) {
+        const apiError = isApiError(error)
+          ? error
+          : new ApiError(
+              error instanceof Error ? error.message : 'Failed to send message',
+              0
+            );
+
+        setSendError(apiError);
+        setSendStatus('error');
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     let ignore = false;
 
@@ -163,6 +205,9 @@ export function useChatMessages(): UseChatMessagesReturn {
     messages,
     loadStatus,
     loadError,
+    sendStatus,
+    sendError,
     reload,
+    sendMessage,
   };
 }
