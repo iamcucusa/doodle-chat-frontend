@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\" \"*.{json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\" \"*.{json,md}\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md,css}\" \"*.{json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md,css}\" \"*.{json,md}\"",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

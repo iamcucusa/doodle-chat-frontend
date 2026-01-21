@@ -25,13 +25,15 @@
   /* ========================================
      Typography
      ======================================== */
-  --font-family-primary: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family-primary:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
 
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
 
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
@@ -60,29 +62,29 @@
   /* ========================================
      Colors - Primary/Brand Palette
      ======================================== */
-  --color-primary-400: #60a5fa;  /* Blue tones for composer */
-  --color-primary-500: #3b82f6;  /* Primary blue */
-  --color-primary-600: #2563eb;  /* Darker blue */
-  --color-primary-700: #1d4ed8;  /* Focus ring color */
+  --color-primary-400: #60a5fa; /* Blue tones for composer */
+  --color-primary-500: #3b82f6; /* Primary blue */
+  --color-primary-600: #2563eb; /* Darker blue */
+  --color-primary-700: #1d4ed8; /* Focus ring color */
 
   /* ========================================
      Colors - Accent (Send Button)
      ======================================== */
-  --color-accent-400: #fb7185;  /* Lighter coral/orange-red for hover */
-  --color-accent-500: #f43f5e;  /* Primary accent (coral/orange-red) */
-  --color-accent-600: #e11d48;  /* Darker accent */
+  --color-accent-400: #fb7185; /* Lighter coral/orange-red for hover */
+  --color-accent-500: #f43f5e; /* Primary accent (coral/orange-red) */
+  --color-accent-600: #e11d48; /* Darker accent */
 
   /* ========================================
      Colors - Semantic (Chat UI)
      ======================================== */
-  --color-background: #f8f8f8;        /* Light gray background */
-  --color-bubble-incoming: #ffffff;   /* White for incoming messages */
-  --color-bubble-outgoing: #fffacd;   /* Light yellow for outgoing messages */
-  --color-text-primary: #333333;      /* Dark gray for main text */
-  --color-text-secondary: #888888;    /* Lighter gray for timestamps */
-  --color-text-placeholder: #bbbbbb;  /* Placeholder text */
-  --color-composer-bg: #3498db;       /* Blue composer background */
-  --color-header-avatar-bg: #0a5c48;  /* Dark green for header avatar */
+  --color-background: #f8f8f8; /* Light gray background */
+  --color-bubble-incoming: #ffffff; /* White for incoming messages */
+  --color-bubble-outgoing: #fffacd; /* Light yellow for outgoing messages */
+  --color-text-primary: #333333; /* Dark gray for main text */
+  --color-text-secondary: #888888; /* Lighter gray for timestamps */
+  --color-text-placeholder: #bbbbbb; /* Placeholder text */
+  --color-composer-bg: #3498db; /* Blue composer background */
+  --color-header-avatar-bg: #0a5c48; /* Dark green for header avatar */
 
   /* ========================================
      Border Radius
@@ -96,10 +98,10 @@
   /* ========================================
      Button Tokens
      ======================================== */
-  --regular-button-height: 44px;      /* Minimum touch target */
+  --regular-button-height: 44px; /* Minimum touch target */
   --button-padding-x: 20px;
   --button-padding-y: 10px;
-  --button-velocity: 150ms;            /* Transition duration */
+  --button-velocity: 150ms; /* Transition duration */
   --button-transition: all var(--button-velocity) ease-in-out;
 
   /* ========================================
@@ -109,7 +111,7 @@
   --focus-ring-offset: 2px;
   --focus-ring-color: var(--color-primary-700);
   --focus-ring: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
-  --focus-ring-shadow: 0 0 0 4px rgba(29, 78, 216, 0.2);  /* Additional visual emphasis for buttons */
+  --focus-ring-shadow: 0 0 0 4px rgba(29, 78, 216, 0.2); /* Additional visual emphasis for buttons */
 
   /* ========================================
      Shadows
