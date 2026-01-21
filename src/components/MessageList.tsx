@@ -29,7 +29,14 @@ export function MessageList({
       )}
 
       {!isLoading && messages.length === 0 && (
-        <div className={styles.empty}>No messages yet.</div>
+        <div className={styles.empty}>
+          <div className={styles.emptyContent}>
+            <p className={styles.emptyTitle}>No messages yet</p>
+            <p className={styles.emptyMessage}>
+              Start the conversation by sending a message.
+            </p>
+          </div>
+        </div>
       )}
 
       {!isLoading && messages.length > 0 && (
