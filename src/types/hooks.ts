@@ -1,4 +1,5 @@
-import type { ChatMessage } from './message';
+import type { ApiError } from '@api/api-error.ts';
+import type { ChatMessage } from '@models/message.ts';
 
 /**
  * Async operation status.
@@ -34,10 +35,7 @@ export interface UseChatMessagesReturn {
   readonly loadStatus: AsyncStatus;
 
   /** Error from load operation, or null if no error */
-  readonly loadError: never | null;
-
-  /** Status of the send operation */
-  readonly sendStatus: AsyncStatus;
+  readonly loadError: ApiError | null;
 
   /** Manually reload messages */
   readonly reload: () => Promise<void>;
