@@ -69,7 +69,7 @@ export function MessageList({
     const previousMessages = previousMessagesRef.current;
 
     if (isInitialLoadRef.current) {
-      if (messages.length > 0) {
+      if (!isLoading && messages.length > 0) {
         isInitialLoadRef.current = false;
         previousMessagesRef.current = messages;
         scrollToBottom();
@@ -108,7 +108,7 @@ export function MessageList({
     }
 
     previousMessagesRef.current = messages;
-  }, [messages, currentAuthor]);
+  }, [messages, currentAuthor, isLoading]);
 
   const isOutgoing = (message: ChatMessage): boolean => {
     return message.author === currentAuthor;
