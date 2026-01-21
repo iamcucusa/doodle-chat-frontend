@@ -53,7 +53,6 @@ UI Components → Custom Hook → API Client → HTTP (fetch)
 **Performance**
 - Message normalization (parsing `createdAt` once)
 - Efficient re-renders (no unnecessary memoization)
-- Optimistic UI updates
 
 ---
 
@@ -116,7 +115,7 @@ The current architecture is designed to support these enhancements without major
 
 **UX:**
 - Optimistic updates for better perceived performance
-- Message grouping (consecutive messages from same author)
+- Message grouping (consecutive messages from same day)
 - Relative timestamps ("2m ago" instead of absolute time)
 
 **Note:** These are potential enhancements, not requirements. The MVP is complete and production-ready.
