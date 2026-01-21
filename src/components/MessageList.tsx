@@ -1,6 +1,7 @@
 import type { ChatMessage } from '@models/message';
 import styles from './MessageList.module.css';
 import { MessageItem } from '@components/MessageItem';
+import { useEffect, useRef, useState } from 'react';
 
 export interface MessageListProps {
   messages: ReadonlyArray<ChatMessage>;
@@ -13,15 +14,108 @@ export function MessageList({
   currentAuthor,
   isLoading = false,
 }: MessageListProps) {
-  const isOutgoing = (message: ChatMessage): boolean => {
-    return message.author === currentAuthor;
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  const wasNearBottomRef = useRef<boolean>(true);
+
+  const [
+    hasNewMessagesWhileAwayFromBottom,
+    setHasNewMessagesWhileAwayFromBottom,
+  ] = useState(false);
+
+  const previousMessagesRef = useRef<ReadonlyArray<ChatMessage>>([]);
+  const isInitialLoadRef = useRef<boolean>(true);
 
   const firstMessageIndex = messages.length > 0 ? 0 : -1;
   const lastMessageIndex = messages.length > 0 ? messages.length - 1 : -1;
 
+  const scrollToBottom = () => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  };
+
+  /**
+   * Schedule state updates outside the synchronous effect body.
+   */
+  const scheduleSetHasNewMessagesWhileAwayFromBottom = (nextValue: boolean) => {
+    queueMicrotask(() => {
+      setHasNewMessagesWhileAwayFromBottom(nextValue);
+    });
+  };
+
+  const handleNewMessagesClick = () => {
+    scrollToBottom();
+    scheduleSetHasNewMessagesWhileAwayFromBottom(false);
+  };
+
+  /**
+   * Auto-scroll effect: runs when messages change.
+   * - If a new message is from current user: (show their own message)
+   * - If a new message is from other user: Only show indicator if user is away from bottom
+   * - Skip indicator logic on initial load (when messages first populate)
+   *
+   */
+  useEffect(() => {
+    const previousMessages = previousMessagesRef.current;
+
+    if (isInitialLoadRef.current) {
+      if (messages.length > 0) {
+        isInitialLoadRef.current = false;
+        previousMessagesRef.current = messages;
+        scrollToBottom();
+      }
+      return;
+    }
+
+    const previousMessageIds = new Set(previousMessages.map(msg => msg._id));
+    const newMessages = messages.filter(
+      msg => !previousMessageIds.has(msg._id)
+    );
+
+    if (newMessages.length === 0) {
+      previousMessagesRef.current = messages;
+      return;
+    }
+
+    const hasNewMessageFromCurrentUser = newMessages.some(
+      msg => msg.author === currentAuthor
+    );
+
+    const hasNewMessageFromOthers = newMessages.some(
+      msg => msg.author !== currentAuthor
+    );
+
+    if (hasNewMessageFromCurrentUser) {
+      scrollToBottom();
+      scheduleSetHasNewMessagesWhileAwayFromBottom(false);
+    } else if (hasNewMessageFromOthers) {
+      if (wasNearBottomRef.current) {
+        scrollToBottom();
+        scheduleSetHasNewMessagesWhileAwayFromBottom(false);
+      } else {
+        scheduleSetHasNewMessagesWhileAwayFromBottom(true);
+      }
+    }
+
+    previousMessagesRef.current = messages;
+  }, [messages, currentAuthor]);
+
+  const isOutgoing = (message: ChatMessage): boolean => {
+    return message.author === currentAuthor;
+  };
+
   return (
-    <section aria-label="Messages" className={styles.root}>
+    <section aria-label="Messages" className={styles.root} ref={containerRef}>
       {isLoading && (
         <div className={styles.loading} role="status" aria-live="polite">
           Loading messages...
@@ -58,6 +152,16 @@ export function MessageList({
               );
             })}
           </ul>
+          {hasNewMessagesWhileAwayFromBottom && (
+            <button
+              type="button"
+              className={styles.newMessagesIndicator}
+              onClick={handleNewMessagesClick}
+              aria-label="Scroll to new messages"
+            >
+              New messages
+            </button>
+          )}
         </>
       )}
     </section>
