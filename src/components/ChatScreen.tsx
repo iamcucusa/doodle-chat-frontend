@@ -12,6 +12,7 @@ import { useChatMessages } from '@hooks/useChatMessages';
 import styles from './ChatScreen.module.css';
 import { MessageList } from '@components/MessageList';
 import { Composer } from '@components/Composer';
+import { ChatHeader } from '@components/ChatHeader';
 
 /**
  * Messages with author === 'You' are treated as outgoing.
@@ -45,9 +46,8 @@ export function ChatScreen() {
       </a>
 
       <main id="main-content" className={styles.root}>
-        {/* Header with page title */}
-        <h1>Chat</h1>
-        {/* Loading status live region */}
+        <ChatHeader messages={messages} currentAuthor={CURRENT_USER} />
+
         {loadStatus === 'loading' && (
           <div
             role="status"
