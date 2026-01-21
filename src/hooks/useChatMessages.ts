@@ -63,8 +63,6 @@ function mergeMessagesById(
 
 /**
  * Custom hook to manage chat messages.
- *
- * Behavior:
  * - Loads messages once on mount
  * - Orders messages chronologically (oldest first) matching display order
  * - Does not poll by default
@@ -104,27 +102,40 @@ export function useChatMessages(): UseChatMessagesReturn {
    *
    * This function handles state updates for loading messages. It's used
    * by both the initial load effect and the manual reload function.
+   *
+   * @param shouldUpdate - Optional callback to check if state should be updated (for race condition guards)
    */
-  const loadMessages = useCallback(async () => {
-    setLoadStatus('loading');
-    setLoadError(null);
+  const loadMessages = useCallback(
+    async (shouldUpdate?: () => boolean) => {
+      // Set loading state - this is safe when called from event handlers (reload)
+      // For initial load, state is already 'loading' from initial useState
+      setLoadStatus('loading');
+      setLoadError(null);
 
-    try {
-      const sorted = await fetchAndNormalizeMessages();
-      setMessages(sorted);
-      setLoadStatus('success');
-    } catch (error) {
-      const apiError = isApiError(error)
-        ? error
-        : new ApiError(
-            error instanceof Error ? error.message : 'Failed to load messages',
-            0
-          );
+      try {
+        const sorted = await fetchAndNormalizeMessages();
+        if (!shouldUpdate || shouldUpdate()) {
+          setMessages(sorted);
+          setLoadStatus('success');
+        }
+      } catch (error) {
+        if (!shouldUpdate || shouldUpdate()) {
+          const apiError = isApiError(error)
+            ? error
+            : new ApiError(
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to load messages',
+                0
+              );
 
-      setLoadError(apiError);
-      setLoadStatus('error');
-    }
-  }, [fetchAndNormalizeMessages]);
+          setLoadError(apiError);
+          setLoadStatus('error');
+        }
+      }
+    },
+    [fetchAndNormalizeMessages]
+  );
 
   /**
    * Reload messages manually.
@@ -172,15 +183,15 @@ export function useChatMessages(): UseChatMessagesReturn {
   useEffect(() => {
     let ignore = false;
 
-    void fetchAndNormalizeMessages()
-      .then(sorted => {
+    void (async () => {
+      try {
+        const sorted = await fetchAndNormalizeMessages();
         if (!ignore) {
           setMessages(sorted);
           setLoadStatus('success');
           setLoadError(null);
         }
-      })
-      .catch(error => {
+      } catch (error) {
         if (!ignore) {
           const apiError = isApiError(error)
             ? error
@@ -194,7 +205,8 @@ export function useChatMessages(): UseChatMessagesReturn {
           setLoadError(apiError);
           setLoadStatus('error');
         }
-      });
+      }
+    })();
 
     return () => {
       ignore = true;
