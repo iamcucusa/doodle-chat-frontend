@@ -10,13 +10,13 @@
  * - reload(): Promise<void> - Manually reload messages
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { apiClient } from '@api/api-client';
 import { ApiError, isApiError } from '@api/api-error';
 import type {
-  Message,
   ChatMessage,
   CreateMessageRequest,
+  Message,
 } from '@models/message';
 import type { AsyncStatus, UseChatMessagesReturn } from '@models/hooks';
 
