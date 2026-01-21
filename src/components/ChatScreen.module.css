@@ -1,4 +1,3 @@
-
 .root {
   display: flex;
   flex-direction: column;
@@ -104,69 +103,69 @@
 }
 
 .sendErrorContainer {
-    flex-shrink: 0;
-    padding: var(--space-2x) var(--space-3x);
-    background-color: var(--color-white);
-    border-top: 1px solid var(--color-monochrome-200);
-    border-left: 1px solid var(--color-monochrome-300);
-    border-right: 1px solid var(--color-monochrome-300);
+  flex-shrink: 0;
+  padding: var(--space-2x) var(--space-3x);
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-monochrome-200);
+  border-left: 1px solid var(--color-monochrome-300);
+  border-right: 1px solid var(--color-monochrome-300);
 }
 
 .sendErrorContent {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-0_5x);
-    max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5x);
+  max-width: 100%;
 }
 
 .sendErrorTitle {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-tight);
-    color: var(--color-text-primary);
-    margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  margin: 0;
 }
 
 .sendErrorMessage {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
-    color: var(--color-text-secondary);
-    margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
 .composerContainer {
-    flex-shrink: 0;
-    padding: var(--space-2x);
-    background-color: var(--color-composer-bg);
-    border-left: 1px solid var(--color-monochrome-300);
-    border-right: 1px solid var(--color-monochrome-300);
-    box-shadow: 0 -1px 0.5px rgba(0, 0, 0, 0.13);
+  flex-shrink: 0;
+  padding: var(--space-2x);
+  background-color: var(--color-composer-bg);
+  border-left: 1px solid var(--color-monochrome-300);
+  border-right: 1px solid var(--color-monochrome-300);
+  box-shadow: 0 -1px 0.5px rgba(0, 0, 0, 0.13);
 }
 
 @media (min-width: 768px) {
   .root {
     align-items: center;
   }
-    .messagesContainer,
-    .sendErrorContainer,
-    .composerContainer {
-        max-width: var(--container-max-width-tablet);
-        width: 100%;
-    }
+  .messagesContainer,
+  .sendErrorContainer,
+  .composerContainer {
+    max-width: var(--container-max-width-tablet);
+    width: 100%;
+  }
 
-    .messagesContainer {
-        padding: 0 var(--space-4x) 0 var(--space-4x);
-    }
-    .sendErrorContainer {
-        padding: var(--space-2x) var(--space-4x);
-    }
+  .messagesContainer {
+    padding: 0 var(--space-4x) 0 var(--space-4x);
+  }
+  .sendErrorContainer {
+    padding: var(--space-2x) var(--space-4x);
+  }
 }
 
 @media (min-width: 1024px) {
-    .messagesContainer,
-    .sendErrorContainer,
-    .composerContainer {
-        max-width: var(--container-max-width-desktop);
-    }
+  .messagesContainer,
+  .sendErrorContainer,
+  .composerContainer {
+    max-width: var(--container-max-width-desktop);
+  }
 }

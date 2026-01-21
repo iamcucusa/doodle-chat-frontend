@@ -1,4 +1,3 @@
-
 .root {
   display: flex;
   flex-direction: column;
@@ -21,7 +20,6 @@
   background-color: var(--color-bubble-outgoing);
   color: var(--color-text-primary);
 }
-
 
 .firstMessage {
   margin-top: var(--space-2x);
