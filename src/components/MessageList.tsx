@@ -9,6 +9,11 @@ export interface MessageListProps {
   isLoading?: boolean;
 }
 
+/**
+ * Threshold in pixels to consider user "near bottom" for auto-scroll.
+ */
+const NEAR_BOTTOM_THRESHOLD = 80;
+
 export function MessageList({
   messages,
   currentAuthor,
@@ -27,6 +32,17 @@ export function MessageList({
 
   const firstMessageIndex = messages.length > 0 ? 0 : -1;
   const lastMessageIndex = messages.length > 0 ? messages.length - 1 : -1;
+
+  const isNearBottom = (): boolean => {
+    const container = containerRef.current;
+    if (!container) {
+      return true;
+    }
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+    return distanceFromBottom <= NEAR_BOTTOM_THRESHOLD;
+  };
 
   const scrollToBottom = () => {
     const container = containerRef.current;
@@ -57,6 +73,28 @@ export function MessageList({
     scrollToBottom();
     scheduleSetHasNewMessagesWhileAwayFromBottom(false);
   };
+
+  /**
+   * Handles scroll events to track if user is near bottom.
+   */
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const handleScroll = () => {
+      wasNearBottomRef.current = isNearBottom();
+      if (wasNearBottomRef.current) {
+        scheduleSetHasNewMessagesWhileAwayFromBottom(false);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   /**
    * Auto-scroll effect: runs when messages change.
