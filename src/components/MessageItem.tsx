@@ -34,12 +34,10 @@ export function MessageItem({
         className={styles.timestamp}
         title={new Date(message.createdAtMs).toLocaleString()}
       >
-        <time dateTime={message.createdAt} className={styles.timestamp}>
-          {new Date(message.createdAt).toLocaleTimeString([], {
-            hour: 'numeric',
-            minute: '2-digit',
-          })}
-        </time>
+        {new Date(message.createdAtMs).toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+        })}
       </time>
     </li>
   );
