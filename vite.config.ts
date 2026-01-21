@@ -14,6 +14,7 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@models': path.resolve(__dirname, './src/types'),
+      '@config': path.resolve(__dirname, './src/config'),
     },
   },
 });
