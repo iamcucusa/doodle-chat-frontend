@@ -20,7 +20,8 @@
       "@components/*": ["src/components/*"],
       "@styles/*": ["src/styles/*"],
       "@models/*": ["src/types/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "strict": true,
     "noUnusedLocals": true,
